@@ -1,3 +1,11 @@
+.header-img {
+    height: 300px!important;
+    overflow: hidden;
+    object-fit: cover;
+    width: 100vw;
+    opacity: 0.4;
+}
+
 .card{
     overflow: hidden;
     transition: box-shadow 330ms ease-in-out;
@@ -19,8 +27,8 @@
 }
 
 .transformation:hover {
-    /* identique à scaleX(2) scaleY(0.5) */
     transform: scale(1.2);
+    opacity: 0.5;
 }
 
 .transformation {

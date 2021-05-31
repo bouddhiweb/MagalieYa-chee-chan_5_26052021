@@ -1,8 +1,8 @@
 export default class Cards {
     /**
-     * @desc Intègre les données dans la classe photo
+     * @desc Intègre les données dans la classe cards
      * @param {Object} cardsData
-     * @param {string} cardsData.id
+     * @param {string} cardsData._id
      * @param {string} cardsData.name
      * @param {number} cardsData.price
      * @param {string} cardsData.description
@@ -23,10 +23,14 @@ export default class Cards {
 
         const cardBody = this._createWithClasses('div', ['card-body', 'ps-3']);
         const cardTitle= this._createWithClasses('h5', ['card-title']);
-        const cardDescription= this._createWithClasses('p', ['text-sm-start']);
+        const cardDescription= this._createWithClasses('p', ['text-sm-start', 'text-truncate']);
         const cardPrice = this._createWithClasses('p', ['fs-3','text-end','px-2']);
         const cardBtnCart= this._createWithClasses('button', ['btn','btn-primary', 'my-3']);
-        const cardBtnPage= this._createWithClasses('button', ['btn','btn-light']);
+
+        //création lien vers produit.html pour chaque section
+        const cardBtnPage = this._createWithClasses('a', ['btn','btn-light']);
+        cardBtnPage.href = "produit.html?id=" + this._id;
+        cardBtnPage.setAttribute('title', "L'ourson " + this.name + " vous attend !");
 
         cardTitle.innerText = this.name;
         cardBtnPage.innerText = 'Voir fiche produit';
@@ -44,12 +48,6 @@ export default class Cards {
 
         document.getElementById('display-cards').appendChild(card);
     }
-
-    /**
-     * @param
-     * @param
-     * @private
-     */
 
     _createWithClasses(tag, classes = []) {
         const elt = document.createElement(tag);

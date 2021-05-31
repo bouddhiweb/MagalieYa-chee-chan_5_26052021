@@ -5,6 +5,7 @@ fetch('http://localhost:3000/api/teddies')
     .then(cards=>{
         cards.forEach(cardsData => {
             const cards = new Cards(cardsData);
+            console.log(cardsData);
             cards.display();
         })
     })
