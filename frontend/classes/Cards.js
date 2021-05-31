@@ -15,13 +15,13 @@ export default class Cards {
     display() {
         //Construction du DOM de l'image
 
-        const card = this._createWithClasses('div', ['card']);
-        const img = this._createWithClasses('img', ['card-img-top']);
+        const card = this._createWithClasses('div', ['card', 'bg-light', 'border']);
+        const img = this._createWithClasses('img', ['card-img-top', 'transformation']);
         img.src = this.imageUrl;
         img.alt = this.name;
         card.appendChild(img);
 
-        const cardBody = this._createWithClasses('div', ['card-body']);
+        const cardBody = this._createWithClasses('div', ['card-body', 'ps-3']);
         const cardTitle= this._createWithClasses('h5', ['card-title']);
         const cardDescription= this._createWithClasses('p', ['text-sm-start']);
         const cardPrice = this._createWithClasses('p', ['fs-3','text-end','px-2']);
@@ -31,14 +31,14 @@ export default class Cards {
         cardTitle.innerText = this.name;
         cardBtnPage.innerText = 'Voir fiche produit';
         cardBtnCart.innerText = 'Ajouter au panier';
-        cardPrice.innerText = this.price + ' €';
+        cardPrice.innerText =this.price/100 + ' €';
         cardDescription.innerText = this.description;
         cardBody.appendChild(cardTitle);
         card.appendChild(cardBody);
-        card.appendChild(cardDescription);
-        card.appendChild(cardPrice);
-        card.appendChild(cardBtnCart);
-        card.appendChild(cardBtnPage);
+        cardBody.appendChild(cardDescription);
+        cardBody.appendChild(cardPrice);
+        cardBody.appendChild(cardBtnCart);
+        cardBody.appendChild(cardBtnPage);
 
         // Insertion dans le DOM conteneur (à la fin)
 

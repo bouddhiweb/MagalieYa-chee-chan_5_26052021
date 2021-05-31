@@ -1,4 +1,28 @@
+.card{
+    overflow: hidden;
+    transition: box-shadow 330ms ease-in-out;
+}
+
+.card:hover{
+    box-shadow: 15px 10px 30px gainsboro;
+}
+
+.card-body {
+    z-index: 1;
+    background-color: white;
+}
+
 .card-img-top {
     height:160px!important;
     object-fit: cover;
+    z-index: 0;
+}
+
+.transformation:hover {
+    /* identique à scaleX(2) scaleY(0.5) */
+    transform: scale(1.2);
+}
+
+.transformation {
+    transition: transform 330ms ease-in-out;
 }
