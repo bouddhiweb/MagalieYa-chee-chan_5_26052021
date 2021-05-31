@@ -1,13 +1,10 @@
-import Photo from "./classes/Cards.js";
+import Cards from "./classes/Cards.js";
 
-fetch('https://jsonplaceholder.typicode.com/photos')
+fetch('http://localhost:3000/api/teddies')
     .then(response=>response.json())
-    .then(photos=>{
-        const offset = 0;
-        const limit = 20;
-        photos = photos.slice(offset, limit);
-        photos.forEach(photoData => {
-            const photo = new Photo(photoData);
-            photo.display();
+    .then(cards=>{
+        cards.forEach(cardsData => {
+            const cards = new Cards(cardsData);
+            cards.display();
         })
     })

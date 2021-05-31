@@ -2,7 +2,7 @@ export default class Cards {
     /**
      * @desc Intègre les données dans la classe photo
      * @param {Object} cardsData
-     * @param {ObjectID} cardsData.id
+     * @param {string} cardsData.id
      * @param {string} cardsData.name
      * @param {number} cardsData.price
      * @param {string} cardsData.description
@@ -17,16 +17,28 @@ export default class Cards {
 
         const card = this._createWithClasses('div', ['card']);
         const img = this._createWithClasses('img', ['card-img-top']);
-        img.src = this.url;
-        img.alt = this.title;
+        img.src = this.imageUrl;
+        img.alt = this.name;
         card.appendChild(img);
 
-        const cardBody = this._createWithClasses('div', ['card-body']);//
-        const cardTitle= this._createWithClasses('h5', ['card-title']); //
+        const cardBody = this._createWithClasses('div', ['card-body']);
+        const cardTitle= this._createWithClasses('h5', ['card-title']);
+        const cardDescription= this._createWithClasses('p', ['text-sm-start']);
+        const cardPrice = this._createWithClasses('p', ['fs-3','text-end','px-2']);
+        const cardBtnCart= this._createWithClasses('button', ['btn','btn-primary', 'my-3']);
+        const cardBtnPage= this._createWithClasses('button', ['btn','btn-light']);
 
-        cardTitle.innerText = this.title;
+        cardTitle.innerText = this.name;
+        cardBtnPage.innerText = 'Voir fiche produit';
+        cardBtnCart.innerText = 'Ajouter au panier';
+        cardPrice.innerText = this.price + ' €';
+        cardDescription.innerText = this.description;
         cardBody.appendChild(cardTitle);
         card.appendChild(cardBody);
+        card.appendChild(cardDescription);
+        card.appendChild(cardPrice);
+        card.appendChild(cardBtnCart);
+        card.appendChild(cardBtnPage);
 
         // Insertion dans le DOM conteneur (à la fin)
 
