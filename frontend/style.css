@@ -34,3 +34,8 @@
 .transformation {
     transition: transform 330ms ease-in-out;
 }
+
+.img-full-display {
+    height: 500px;
+    object-fit: cover;
+}
