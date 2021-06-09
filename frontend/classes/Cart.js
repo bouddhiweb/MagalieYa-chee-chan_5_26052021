@@ -37,12 +37,12 @@ export default class Cart {
         for (let i = 0; i < localStorage.length; i++) {
             console.log(localStorage);
             itemName = localStorage.getItem(localStorage.key(i));
-            itemPrice = localStorage.getItem(localStorage.key(i));
+            //itemPrice = localStorage.getItem(localStorage.key(i));
 
             let mainCart = document.getElementById('cart-content');
             mainCart.classList.add("my-3");
 
-            let divCart = this._createWithClasses('div', ['CartContentToClear', "d-flex", "flex-row", "justify-content-between", "my-2", "px-1", "bold"]);
+            let divCart = this._createWithClasses('div', ["d-flex", "flex-row", "justify-content-between", "my-2", "px-1", "bold"]);
             //Ajouter attribut ID
             mainCart.appendChild(divCart);
 
@@ -52,18 +52,22 @@ export default class Cart {
             divCart.appendChild(nameTeddy);
             nameTeddy.textContent = itemName;
             divCart.appendChild(priceTeddy);
-            priceTeddy.textContent = itemPrice + ' €';
+            //priceTeddy.textContent = itemPrice + ' €';
         }
+        let emptyCart = document.getElementById('btn-clear-cart');
+        const emptyStorage = () => {
+            localStorage.clear();
+            document.location.reload();
+        }
+        let emptyCartBtn = this._createWithClasses('button', ['btn', 'btn-danger']);
+        emptyCartBtn.textContent = 'Vider le panier';
 
+        emptyCart.appendChild(emptyCartBtn);
+
+        emptyCart.addEventListener("click", emptyStorage);
     }
 
-
     empty() {
-        const emptyCart = () => {
-            localStorage.clear();
-        }
-        let emptyCartBtn = document.getElementById('btn-clear-cart');
-        emptyCartBtn.addEventListener("click", emptyCart());
 
     }
 
