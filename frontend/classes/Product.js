@@ -11,6 +11,7 @@ export default class Product {
      * @param {string} productData.imageUrl
      */
     constructor(productData) {
+        this.quantity = 1;
         Object.assign(this, productData);
     }
 
@@ -82,6 +83,35 @@ export default class Product {
 
                 document.getElementById('product-img').appendChild(imgFull);
                 document.getElementById('product-info').appendChild(productInfo);
+                break;
+
+            case 'cart' :
+                console.log('affichage panier');
+
+
+
+                // Affichage du contenu du panier
+
+                let mainCart = document.getElementById('cart-content');
+                mainCart.classList.add("my-3");
+
+                let divCart = this._createWithClasses('div', ["d-flex", "flex-row", "justify-content-between", "my-2", "px-1", "bold"]);
+                //Ajouter attribut ID
+                mainCart.appendChild(divCart);
+
+                let nameTeddy = this._createWithClasses('p', ['bold']);
+                let colorTeddy = this._createWithClasses('p', ['bold']);
+                let priceTeddy = this._createWithClasses('p', ['bold']);
+                let QuantityTeddy = this._createWithClasses('p', ['bold']);
+
+                divCart.appendChild(nameTeddy);
+                divCart.appendChild(priceTeddy);
+                divCart.appendChild(QuantityTeddy);
+
+                nameTeddy.textContent = this.name;
+                priceTeddy.textContent = this.price / 100 + ' €';
+                QuantityTeddy.textContent = this.quantity;
+
                 break;
 
             default :

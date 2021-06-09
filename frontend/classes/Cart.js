@@ -1,73 +1,68 @@
 import Product from "./Product.js";
 
 export default class Cart {
-    constructor(productData) {
-        /**
-         * @desc Intègre les données dans la classe cards
-         * @param {Object} productData
-         * @param {string} productData._id
-         * @param {string} productData.name
-         * @param {number} productData.price
-         * @param {string} productData.description
-         * @param {string} productData.imageUrl
-         */
-        Object.assign(this, productData);
+    constructor() {
+        let cartFromStorage = localStorage.getItem('cart');
+        if (cartFromStorage === null) {
+            this.content = {};
+            this._updateStorage();
+        } else {
+            this.content = JSON.parse(cartFromStorage);
+        }
 
     }
 
     /////////////////////////////MISE EN PLACE DU PANIER///////////////////////////////////////////////////////
 
+    /**
+     *
+     * @param {Product} product
+     */
     add(product) {
-        console.log("C'est ajouté", product);
-        const itemId = product._id;
-        let cartContent = JSON.parse(localStorage.getItem(itemId));
-        if (cartContent === null) {
-            cartContent = [];
+        if(this.content[product._id] === undefined) {
+            this.content[product._id] = product;
+        } else {
+            this.content[product._id].quantity ++;
         }
-
-        const itemName = product.name;
-        const itemPrice = product.price/100;
-        const keyName = itemId+'name';
-        const keyPrice = itemId+'price';
-        localStorage.setItem(keyName, itemName);
-        localStorage.setItem(keyPrice, itemPrice);
+        this._updateStorage();
+        console.log("C'est ajouté", this.content);
     }
 
-    displayCart(product, itemId, itemName) {
-        for (let i = 0; i < localStorage.length; i++) {
-            console.log(localStorage);
-            itemName = localStorage.getItem(localStorage.key(i));
-            //itemPrice = localStorage.getItem(localStorage.key(i));
-
-            let mainCart = document.getElementById('cart-content');
-            mainCart.classList.add("my-3");
-
-            let divCart = this._createWithClasses('div', ["d-flex", "flex-row", "justify-content-between", "my-2", "px-1", "bold"]);
-            //Ajouter attribut ID
-            mainCart.appendChild(divCart);
-
-            let priceTeddy = this._createWithClasses('p', ['price']);
-            let nameTeddy = this._createWithClasses('p', ['bold']);
-
-            divCart.appendChild(nameTeddy);
-            nameTeddy.textContent = itemName;
-            divCart.appendChild(priceTeddy);
-            //priceTeddy.textContent = itemPrice + ' €';
+    display() {
+        let total = 0;
+        // Affichae des produits
+        for(const [_id, productData] of Object.entries(this.content)) {
+            const product = new Product(productData);
+            total += product.price * product.quantity / 100;
+            console.log(_id, productData);
+            product.display('cart');
         }
+        // Affichage du total
+        console.log(total);
+        let totalCartDiv = document.getElementById('total-price');
+        let totalCart = this._createWithClasses('p', ['bold']);
+        let lenghtCart = this._createWithClasses('p', ['bold']);
+        totalCartDiv.appendChild(totalCart);
+        totalCart.textContent = 'Total :' + total + ' €';
+        this.empty();
+    }
+
+    // Bouton pour vider le panier
+    empty() {
+
         let emptyCart = document.getElementById('btn-clear-cart');
-        const emptyStorage = () => {
-            localStorage.clear();
-            document.location.reload();
-        }
+
         let emptyCartBtn = this._createWithClasses('button', ['btn', 'btn-danger']);
         emptyCartBtn.textContent = 'Vider le panier';
 
         emptyCart.appendChild(emptyCartBtn);
+        //Vider le panier
+        const emptyStorage = () => {
+            localStorage.clear();
+            document.location.reload();
+        }
 
         emptyCart.addEventListener("click", emptyStorage);
-    }
-
-    empty() {
 
     }
 
@@ -85,5 +80,9 @@ export default class Cart {
         const elt = document.createElement(tag);
         classes.forEach(classe => elt.classList.add(classe));
         return elt;
+    }
+
+    _updateStorage() {
+        localStorage.setItem('cart', JSON.stringify(this.content));
     }
 }
