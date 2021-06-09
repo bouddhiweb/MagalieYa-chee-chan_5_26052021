@@ -25,19 +25,46 @@
                         <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
                     </svg>
                     Panier
-                    <span class="badge rounded-pill bg-danger"></span>
+                    <span id="cart-lenght"></span>
                 </a>
             </div>
         </div>
     </div>
 </nav>
 
-<div class="container mt-5">
-    <h2 class="display-4">Ton panier</h2>
-</div>
+<!-- Cart content-->
 
-<!--Products Grid-->
+<main class="container my-5">
+    <h2 class="display-4 my-5">Ton panier</h2>
 
+        <!-- Panier -->
+        <!-- Label des colonnes du panier -->
+        <div class="border border-warning rounded shadow-lg my-5 p-4 text-center">
+            <div class="d-flex flex-row justify-content-between px-1 my-2 text-warning">
+                <p class="my-1">Nom</p>
+                <p class="my-1">Couleur</p>
+                <p class="my-1">Prix</p>
+            </div>
+
+            <!-- Contenu du panier -->
+            <div id="cart-content">
+                <!--Complèter chaque élément ajouté au panier avec le JS-->
+            </div>
+
+            <!-- Prix et bouton de vider le panier -->
+            <div class="d-flex flex-column align-items-end">
+                <div id="total-price" class="my-3">
+                    <!-- Prix total de la commande  à compléter avec le JS-->
+                </div>
+
+                <div id="btn-clear-cart">
+                    <!-- Bouton : vider le panier à compléter avec le JS-->
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
 
 <img src="./frontend/img/baby-teddy.jpg" alt="Teddy bear Orinoteddies" class="img-fluid header-img">
 
@@ -61,7 +88,7 @@
         </ul>
     </nav>
 </footer>
-<script src="frontend/classes/cart.js" type="module"></script>
+<script src="frontend/pages/cart.js" type="module"></script>
 <!-- CSS only -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 </body>

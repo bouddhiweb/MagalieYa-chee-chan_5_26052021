@@ -53,7 +53,6 @@ export default class Product {
                 document.getElementById('display-cards').appendChild(card);
                 break;
 
-
             case 'full' :
                 console.log('affichage full');
                 //Image produit
@@ -88,8 +87,6 @@ export default class Product {
             default :
                 throw 'mode ' + mode + ' non reconnu';
         }
-
-
     }
 
     _createWithClasses(tag, classes = []) {
