@@ -38,29 +38,43 @@
     <h2 class="display-4 my-5">Ton panier</h2>
 
     <!-- Panier -->
-    <section class="border rounded my-5 p-4 text-center">
-        <!-- En-tête de colonne -->
-        <div class="d-flex flex-row justify-content-between px-1 my-2">
-            <p class="my-1 lead">Nom</p>
-            <p class="my-1 lead">Couleur</p>
-            <p class="my-1 lead">Prix</p>
-            <p class="my-1 lead">Quantité</p>
-        </div>
-
+    <section class="my-5 p-4 text-center">
         <!-- Contenu du panier -->
-        <div id="cart-content">
-            <!--Affichage de chaque élément ajouté au panier avec le JS-->
-        </div>
-
+        <!-- En-tête de colonne -->
+        <table class="table table-striped table-hover table-responsive">
+            <thead>
+            <tr>
+                <th scope="col" class="my-1 lead">Nom</th>
+                <th scope="col" class="my-1 lead">Couleur</th>
+                <th scope="col" class="my-1 lead">Prix</th>
+                <th scope="col" class="my-1 lead">Quantité</th>
+            </tr>
+            </thead>
+            <tbody id="cart-content">
+            <tr>
+                <!--Affichage de chaque élément ajouté au panier avec le JS-->
+            </tr>
+            </tbody>
+        </table>
+        <table class="table table-striped table-responsive">
+            <thead>
+                <tr>
+                    <th scope="col" class="my-1 lead">Récapitulatif du panier</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <!-- Prix total de la commande  à compléter avec le JS-->
+                    <td class="my-1 lead">Nombre de produits</td>
+                    <td class="my-1 lead" id="nb-product"></td>
+                    <td class="my-1 lead">Total</td>
+                    <td class="my-1 lead" id="total-price"></td>
+                </tr>
+            </tbody>
+        </table>
         <!-- Prix et bouton de vider le panier -->
-        <div class="d-flex flex-column align-items-end">
-            <div id="total-price" class="my-3">
-                <!-- Prix total de la commande  à compléter avec le JS-->
-            </div>
-
-            <div id="btn-clear-cart">
-                <!-- Bouton : vider le panier à compléter avec le JS-->
-            </div>
+        <div>
+            <span id="btn-clear-cart"></span><!-- Bouton : vider le panier à compléter avec le JS-->
         </div>
     </section>
 

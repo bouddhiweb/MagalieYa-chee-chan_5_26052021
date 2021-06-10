@@ -5,7 +5,6 @@ import Product from "../classes/Product.js";
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const teddyId = urlParams.get('id');
-console.log(teddyId);
 
 fetch('http://localhost:3000/api/teddies/' + teddyId)
     .then(response=>response.json())

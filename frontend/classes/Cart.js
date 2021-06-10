@@ -19,10 +19,10 @@ export default class Cart {
      * @param {Product} product
      */
     add(product) {
-        if(this.content[product._id] === undefined) {
-            this.content[product._id] = product;
+        if(this.content[product._id + product.color] === undefined) {
+            this.content[product._id + product.color] = product;
         } else {
-            this.content[product._id].quantity ++;
+            this.content[product._id + product.color].quantity ++;
         }
         this._updateStorage();
         console.log("C'est ajouté", this.content);
@@ -40,10 +40,9 @@ export default class Cart {
         // Affichage du total
         console.log(total);
         let totalCartDiv = document.getElementById('total-price');
-        let totalCart = this._createWithClasses('p', ['bold']);
-        let lenghtCart = this._createWithClasses('p', ['bold']);
+        let totalCart = this._createWithClasses('p', ['lead', 'text-uppercase']);
         totalCartDiv.appendChild(totalCart);
-        totalCart.textContent = 'Total :' + total + ' €';
+        totalCart.textContent = total + ' €';
         this.empty();
     }
 

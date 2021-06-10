@@ -12,24 +12,38 @@ export default class Product {
      */
     constructor(productData) {
         this.quantity = 1;
+        this.select = this._createWithClasses('select', ['form-select', 'form-select-lg', 'mb-3']);
+        this.select.id = 'select-color';
+        this.chosenColor = this.select.value;
         Object.assign(this, productData);
     }
 
     display(mode) {
         //Switch Affichage complet / vignette
+
         switch (mode) {
             case 'thumbnail' :
-                const card = this._createWithClasses('div', ['card', 'bg-light', 'border']);
+                const card = this._createWithClasses('div', ['card', 'col-sm', 'm-3', 'bg-light', 'border']);
                 const img = this._createWithClasses('img', ['card-img-top', 'transformation']);
                 img.src = this.imageUrl;
                 img.alt = this.name;
                 card.appendChild(img);
 
-                const cardBody = this._createWithClasses('div', ['card-body', 'ps-3']);
+                const cardBody = this._createWithClasses('div', ['card-body']);
                 const cardTitle= this._createWithClasses('h5', ['card-title']);
-                const cardDescription= this._createWithClasses('p', ['text-sm-start', 'text-truncate']);
+                const cardDescription= this._createWithClasses('p', ['card-text', 'text-truncate']);
                 const cardPrice = this._createWithClasses('p', ['fs-3','text-end','px-2']);
                 const cardBtnCart= this._createWithClasses('button', ['btn','btn-primary', 'my-3']);
+
+                //Choix de la couleur de l'ours en peluche
+                const colors = this.colors;
+                colors.forEach(color => {
+                    const cardOptionsColors = this._createWithClasses('option', ['option-color']);
+                    cardOptionsColors.value = color;
+                    cardOptionsColors.innerText = color;
+                    this.select.appendChild(cardOptionsColors);
+
+                });
 
                 //création lien vers produit.html pour chaque section
                 const cardBtnPage = this._createWithClasses('a', ['btn','btn-light']);
@@ -42,9 +56,11 @@ export default class Product {
                 cardBtnCart.addEventListener('click', this._onBtnClick.bind(this));
                 cardPrice.innerText =this.price/100 + ' €';
                 cardDescription.innerText = this.description;
+
                 cardBody.appendChild(cardTitle);
                 card.appendChild(cardBody);
                 cardBody.appendChild(cardDescription);
+                cardBody.appendChild(this.select);
                 cardBody.appendChild(cardPrice);
                 cardBody.appendChild(cardBtnCart);
                 cardBody.appendChild(cardBtnPage);
@@ -60,6 +76,17 @@ export default class Product {
                 const imgFull = this._createWithClasses('img', ['img-full-display']);
                 imgFull.src = this.imageUrl;
                 imgFull.alt = this.name;
+
+                //Choix de la couleur de l'ours en peluche
+                const fullcolors = this.colors;
+
+
+                fullcolors.forEach(color => {
+                    const fullOptionsColors = this._createWithClasses('option', ['option-color']);
+                    fullOptionsColors.value = color;
+                    fullOptionsColors.innerText = color;
+                    this.select.appendChild(fullOptionsColors);
+                });
 
                 // Informations produits
 
@@ -78,6 +105,7 @@ export default class Product {
                 productInfo.appendChild(productBody);
                 productBody.appendChild(productName);
                 productBody.appendChild(productDescription);
+                productBody.appendChild(this.select);
                 productBody.appendChild(productPrice);
                 productBody.appendChild(productBtnCart);
 
@@ -88,27 +116,26 @@ export default class Product {
             case 'cart' :
                 console.log('affichage panier');
 
-
-
                 // Affichage du contenu du panier
 
                 let mainCart = document.getElementById('cart-content');
-                mainCart.classList.add("my-3");
 
-                let divCart = this._createWithClasses('div', ["d-flex", "flex-row", "justify-content-between", "my-2", "px-1", "bold"]);
+                let divCart = this._createWithClasses('tr', ['lead']);
                 //Ajouter attribut ID
                 mainCart.appendChild(divCart);
 
-                let nameTeddy = this._createWithClasses('p', ['bold']);
-                let colorTeddy = this._createWithClasses('p', ['bold']);
-                let priceTeddy = this._createWithClasses('p', ['bold']);
-                let QuantityTeddy = this._createWithClasses('p', ['bold']);
+                let nameTeddy = this._createWithClasses('td', ['lead']);
+                let colorTeddy = this._createWithClasses('td', ['lead']);
+                let priceTeddy = this._createWithClasses('td', ['lead']);
+                let QuantityTeddy = this._createWithClasses('td', ['lead']);
 
                 divCart.appendChild(nameTeddy);
+                divCart.appendChild(colorTeddy);
                 divCart.appendChild(priceTeddy);
                 divCart.appendChild(QuantityTeddy);
 
                 nameTeddy.textContent = this.name;
+                colorTeddy.textContent = this.color;
                 priceTeddy.textContent = this.price / 100 + ' €';
                 QuantityTeddy.textContent = this.quantity;
 
@@ -127,6 +154,14 @@ export default class Product {
 
     _onBtnClick () {
         const cart = new Cart();
-        cart.add(this);
+        let teddiesChoosen = {
+            _id: this._id,
+            name: this.name,
+            color: this.select.value,
+            quantity: this.quantity,
+            price: this.price
+        };
+        cart.add(teddiesChoosen);
+
     }
 }
