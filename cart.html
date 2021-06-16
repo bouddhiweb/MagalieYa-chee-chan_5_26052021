@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Orinoco</title>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <link rel="stylesheet" href="frontend/style.css" type="text/css" />
 </head>
@@ -56,18 +56,16 @@
             </tr>
             </tbody>
         </table>
+        <h3 class="mt-5 mb-3 lead">Récapitulatif du panier</h3>
         <table class="table table-striped table-responsive">
-            <thead>
-                <tr>
-                    <th scope="col" class="my-1 lead">Récapitulatif du panier</th>
-                </tr>
-            </thead>
             <tbody>
                 <tr>
                     <!-- Prix total de la commande  à compléter avec le JS-->
-                    <td class="my-1 lead">Nombre de produits</td>
-                    <td class="my-1 lead" id="nb-product"></td>
+                    <td class="my-1 lead">Nombre total de produits</td>
                     <td class="my-1 lead">Total</td>
+                </tr>
+                <tr>
+                    <td class="my-1 lead" id="nb-product"></td>
                     <td class="my-1 lead" id="total-price"></td>
                 </tr>
             </tbody>

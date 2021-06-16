@@ -14,7 +14,6 @@ export default class Product {
         this.quantity = 1;
         this.select = this._createWithClasses('select', ['form-select', 'form-select-lg', 'mb-3']);
         this.select.id = 'select-color';
-        this.chosenColor = this.select.value;
         Object.assign(this, productData);
     }
 
@@ -53,7 +52,7 @@ export default class Product {
                 cardTitle.innerText = this.name;
                 cardBtnPage.innerText = 'Voir fiche produit';
                 cardBtnCart.innerText = 'Ajouter au panier';
-                cardBtnCart.addEventListener('click', this._onBtnClick.bind(this));
+                cardBtnCart.addEventListener('click', this._addOnClick.bind(this));
                 cardPrice.innerText =this.price/100 + ' €';
                 cardDescription.innerText = this.description;
 
@@ -99,7 +98,7 @@ export default class Product {
 
                 productName.innerText = "L'ourson " + this.name;
                 productBtnCart.innerText = 'Ajouter au panier';
-                productBtnCart.addEventListener('click', this._onBtnClick.bind(this));
+                productBtnCart.addEventListener('click', this._addOnClick.bind(this));
                 productPrice.innerText =this.price/100 + ' €';
                 productDescription.innerText = this.description;
                 productInfo.appendChild(productBody);
@@ -127,17 +126,27 @@ export default class Product {
                 let nameTeddy = this._createWithClasses('td', ['lead']);
                 let colorTeddy = this._createWithClasses('td', ['lead']);
                 let priceTeddy = this._createWithClasses('td', ['lead']);
-                let QuantityTeddy = this._createWithClasses('td', ['lead']);
+                let quantityTeddy = this._createWithClasses('td', ['lead', 'd-flex', 'justify-content-center']);
+                let quantityContent= this._createWithClasses('p', ['lead', 'quantity']);
+                let quantityAdd = this._createWithClasses('button', ['lead', 'btn', 'btn-success', 'mx-3']);
+                let quantityRemove = this._createWithClasses('button', ['lead', 'btn', 'btn-danger', 'mx-3']);
 
                 divCart.appendChild(nameTeddy);
                 divCart.appendChild(colorTeddy);
                 divCart.appendChild(priceTeddy);
-                divCart.appendChild(QuantityTeddy);
+                divCart.appendChild(quantityTeddy);
+                quantityTeddy.appendChild(quantityAdd); // Quantité - select quantity
+                quantityTeddy.appendChild(quantityContent); // Quantité dans le localstorage - chiffre
+                quantityTeddy.appendChild(quantityRemove); // Quantité - select quantity
 
-                nameTeddy.textContent = this.name;
-                colorTeddy.textContent = this.color;
-                priceTeddy.textContent = this.price / 100 + ' €';
-                QuantityTeddy.textContent = this.quantity;
+                nameTeddy.innerText = this.name;
+                colorTeddy.innerText = this.color;
+                priceTeddy.innerText = this.price / 100 + ' €';
+                quantityAdd.innerText = '+';
+                quantityContent.innerText = this.quantity;
+                quantityRemove.innerText = '-';
+                quantityAdd.addEventListener("click", this._addBtnOnClick.bind(this));
+                quantityRemove.addEventListener("click", this._removeBtnOnClick.bind(this));
 
                 break;
 
@@ -152,7 +161,8 @@ export default class Product {
         return elt;
     }
 
-    _onBtnClick () {
+    // Envoie du contenu panier au storage
+    _addOnClick () {
         const cart = new Cart();
         let teddiesChoosen = {
             _id: this._id,
@@ -162,6 +172,29 @@ export default class Product {
             price: this.price
         };
         cart.add(teddiesChoosen);
+    }
+    _addBtnOnClick () {
+        const cart = new Cart();
+        let teddiesChoosen = {
+            _id: this._id,
+            name: this.name,
+            color: this.color,
+            quantity: this.quantity,
+            price: this.price
+        };
+        cart.add(teddiesChoosen);
+        document.location.reload();
+    }
+    _removeBtnOnClick () {
+        const cart = new Cart();
+        let teddiesChoosen = {
+            _id: this._id,
+            name: this.name,
+            color: this.color,
+            quantity: this.quantity,
+            price: this.price
+        };
+        cart.remove(teddiesChoosen);
 
     }
 }

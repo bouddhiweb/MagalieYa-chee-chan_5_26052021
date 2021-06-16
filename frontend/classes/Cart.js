@@ -26,24 +26,35 @@ export default class Cart {
         }
         this._updateStorage();
         console.log("C'est ajouté", this.content);
-    }
+        console.log("La couleur", product.color);
+    };
 
     display() {
         let total = 0;
-        // Affichae des produits
+        let quantity = 0;
+        // Affichage des produits
         for(const [_id, productData] of Object.entries(this.content)) {
             const product = new Product(productData);
             total += product.price * product.quantity / 100;
+            quantity += product.quantity ;
             console.log(_id, productData);
             product.display('cart');
         }
         // Affichage du total
-        console.log(total);
         let totalCartDiv = document.getElementById('total-price');
         let totalCart = this._createWithClasses('p', ['lead', 'text-uppercase']);
         totalCartDiv.appendChild(totalCart);
-        totalCart.textContent = total + ' €';
+        totalCart.innerText = total + ' €';
+
+        // Affichage du nb de produit dans le panier
+        let nbProductsDiv = document.getElementById('nb-product');
+        let nbProducts = this._createWithClasses('p', ['lead', 'text-uppercase']);
+        nbProductsDiv.appendChild(nbProducts);
+        nbProducts.innerText = quantity;
+
+        // Affichage du bouton "vider le panier"
         this.empty();
+
     }
 
     // Bouton pour vider le panier
@@ -65,14 +76,23 @@ export default class Cart {
 
     }
 
-    delete(product) {
-        //TODO:compléter cette méthode pour supprimer un élément du panier
-    }
+    //Méthode qui nous permet de supprimer un produit du panier en cliquant sur un button grâce à son ID
+    remove(product) {
 
-    cartLength() {
-        const cartLength= this._createWithClasses('p', ['badge', 'rounded-pill', 'bg-danger']);
-        cartLength.innerText = localStorage.length;
-        document.getElementById('cart-lenght').appendChild(cartLength);
+        if(this.content[product._id + product.color].quantity <= 1) {
+            let test = product._id + product.color;
+            let cartFromStorage = localStorage.getItem('cart');
+            let content = JSON.parse(cartFromStorage);
+            delete content[test];
+            localStorage.setItem('cart', JSON.stringify(content));
+            document.location.reload();
+
+        } else {
+            this.content[product._id + product.color].quantity --;
+            this._updateStorage();
+            document.location.reload();
+        }
+
     }
 
     _createWithClasses(tag, classes = []) {
