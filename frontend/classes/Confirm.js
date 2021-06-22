@@ -6,14 +6,14 @@ export default class Confirm {
 
     addConfirmationOrder(total) {
         console.log(total);
-        const confirmationId = localStorage.getItem("orderConfirmationId");
+        const confirmationId = localStorage.getItem("OrderId");
         const messageConfirmation = document.getElementById("orderId");
         messageConfirmation.innerHTML = "Merci pour votre commande n° " + confirmationId;
         const confirmationPrice = document.getElementById("total-price");
         confirmationPrice.innerHTML = "Prix total : " + total + " €";
         console.log('localStorage');
         console.log(localStorage);
-        localStorage.clear();
+        //localStorage.clear();
         console.log('localStorage');
         console.log(localStorage);
     }

@@ -125,7 +125,7 @@ export default class Cart {
         formDiv.appendChild(btnValidation);
         document.getElementById('contact-form').appendChild(formDiv);
 
-        btnValidation.addEventListener("click", (evt, contact) => {
+        btnValidation.addEventListener("click", (evt) => {
             this.contact = {
                 firstName : firstnameInput.value,
                 lastName : surnameInput.value,
@@ -175,17 +175,20 @@ export default class Cart {
     getOrderConfirmationId(responseId) {
         let orderId = responseId.orderId;
         console.log(orderId);
-        localStorage.setItem("test", orderId);
+        localStorage.setItem("OrderId", orderId);
     }
 
     // Soumission du formulaire
     async submit(contact) {
+        document.getElementById('form-error').innerHTML = '';
         let products = [];
         let productId = Object.keys(this.content);
         productId.forEach(element => products.push(element.substr(0, 24)));
         let dataToSend = JSON.stringify({ contact, products });
+        let emailIsValid = this.emailtest();
+        let namesIsValid = this.namestest();
 
-        if(this.emailtest() && this.namestest() === true) {
+        if(emailIsValid && namesIsValid) {
             try {
                 console.log(dataToSend);
                 console.log(products);
