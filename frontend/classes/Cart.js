@@ -3,12 +3,15 @@ import Product from "./Product.js";
 export default class Cart {
     constructor() {
         let cartFromStorage = localStorage.getItem('cart');
+        this.contact = {};
+        this.total = 0;
         if (cartFromStorage === null) {
             this.content = {};
             this._updateStorage();
         } else {
             this.content = JSON.parse(cartFromStorage);
         }
+
     }
 
     /////////////////////////////MISE EN PLACE DU PANIER///////////////////////////////////////////////////////
@@ -35,6 +38,7 @@ export default class Cart {
         for(const [_id, productData] of Object.entries(this.content)) {
             const product = new Product(productData);
             total += product.price * product.quantity / 100;
+            this.total = total;
             quantity += product.quantity ;
             console.log(_id, productData);
             product.display('cart');
@@ -44,6 +48,7 @@ export default class Cart {
         let totalCart = this._createWithClasses('p', ['lead', 'text-uppercase']);
         totalCartDiv.appendChild(totalCart);
         totalCart.innerText = total + ' €';
+
 
         // Affichage du nb de produit dans le panier
         let nbProductsDiv = document.getElementById('nb-product');
@@ -121,28 +126,26 @@ export default class Cart {
         document.getElementById('contact-form').appendChild(formDiv);
 
         btnValidation.addEventListener("click", (evt, contact) => {
-            // Récupération des informations du formulaire
-            contact = {
-                lastname : surnameInput.value,
-                firstname : firstnameInput.value,
-                email : emailInput.value,
+            this.contact = {
+                firstName : firstnameInput.value,
+                lastName : surnameInput.value,
                 address : addressInput.value,
                 city : cityInput.value,
+                email : emailInput.value,
             };
             evt.preventDefault();
-            console.log(contact);
-            this.emailtest(contact);
-            this.namestest(contact);
-            console.log(this.emailtest(contact));
-            console.log(this.namestest(contact));
+            // Récupération des informations du formulaire
+            this.submit(this.contact);
+
         })
     }
 
     // Test du contenu du formulaire
 
-    emailtest(contact) {
+    emailtest() {
         const errorMsg = document.getElementById('form-error');
-        if (/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(contact.email)) {
+        const emailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        if (this.contact.email.match(emailformat)) {
             return true;
         } else {
             errorMsg.style.display = "block";
@@ -153,12 +156,11 @@ export default class Cart {
         }
     }
 
-    namestest(contact) {
+    namestest() {
         const errorMsg = document.getElementById('form-error');
         // Test nom et prénom
         let letter = /^[a-zA-Z]+$/;
-        if (contact.firstname.match(letter) && contact.lastname.match(letter)) {
-            console.log(contact.firstname + ' ' + contact.lastname);
+        if (this.contact.firstName.match(letter) && this.contact.lastName.match(letter)) {
             return true;
         } else {
             errorMsg.style.display = "block"
@@ -169,17 +171,44 @@ export default class Cart {
         }
     }
 
+    //Récupération de l'id de commande renvoyée par l'API et stockage dans le localStorage
+    getOrderConfirmationId(responseId) {
+        let orderId = responseId.orderId;
+        console.log(orderId);
+        localStorage.setItem("test", orderId);
+    }
 
     // Soumission du formulaire
-    submit(evt) {
-        evt.preventDefault();
-        /*
-                if() {
+    async submit(contact) {
+        let products = [];
+        let productId = Object.keys(this.content);
+        productId.forEach(element => products.push(element.substr(0, 24)));
+        let dataToSend = JSON.stringify({ contact, products });
 
+        if(this.emailtest() && this.namestest() === true) {
+            try {
+                console.log(dataToSend);
+                console.log(products);
+                let response = await fetch("http://localhost:3000/api/teddies/order", {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: dataToSend
+                });
+                if (response.ok) {
+                    let responseId = await response.json();
+                    this.getOrderConfirmationId(responseId);
+                    window.location.href = "confirmation.html?total=" + this.total;
+                    console.error(responseId);
                 } else {
-                    window.alert("Le formulaire n'a pas été rempli correctement.")
+                    console.error('Retour du serveur : ', response.status);
                 }
-        */
+            } catch (e) {
+                console.log(e);
+            }
+
+        }
     }
 
     // Bouton pour vider le panier
