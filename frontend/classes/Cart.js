@@ -58,14 +58,23 @@ export default class Cart {
 
         // Affichage du bouton "vider le panier"
         this.empty();
-        this.form();
+        let cartLength = Object.keys(this.content).length;
+        console.log(cartLength);
+        if(cartLength >= 1) {
+            this.form();
+        }
+
     }
 
     // Intégration du formulaire
     form() {
-        // Création du formulaire de validation
-        const formDiv = this._createWithClasses('div', ['col-9']);
 
+        // Création du formulaire de validation
+        const formDiv = this._createWithClasses('div', ['col-9', 'border', 'p-5', 'my-5', 'bg-light']);
+
+        // Titre du formulaire
+        const formTitle= this._createWithClasses('h2', ['display-4', 'my-5']);
+        formTitle.innerText = 'Formulaire de commande';
         // Nom de famille
         const surnameLabel = this._createWithClasses('label', ['form-label']);
         const surnameInput = this._createWithClasses('input', ['form-control']);
@@ -112,6 +121,7 @@ export default class Cart {
         btnValidation.innerText = "Valider la commande";
 
         // Intégration au HTML
+        formDiv.appendChild(formTitle);
         formDiv.appendChild(surnameLabel);
         formDiv.appendChild(surnameInput);
         formDiv.appendChild(firstnameLabel);
@@ -163,7 +173,7 @@ export default class Cart {
         if (this.contact.firstName.match(letter) && this.contact.lastName.match(letter)) {
             return true;
         } else {
-            errorMsg.style.display = "block"
+            errorMsg.style.display = "block";
             const errorNames = this._createWithClasses('p', ['text-danger']);
             errorNames.innerText = "Tu as saisie des caractères non-autorisés dans le champs nom ou prénom. Merci de ne saisir uniquement des lettres dans ces champs.";
             errorMsg.appendChild(errorNames);
