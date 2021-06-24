@@ -57,10 +57,10 @@ export default class Cart {
         nbProducts.innerText = quantity;
 
         // Affichage du bouton "vider le panier"
-        this.empty();
+
         let cartLength = Object.keys(this.content).length;
-        console.log(cartLength);
         if(cartLength >= 1) {
+            this.empty();
             this.form();
         }
 
